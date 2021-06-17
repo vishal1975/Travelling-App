@@ -1,5 +1,6 @@
 package com.riseinsteps.packbagbuddy.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.riseinsteps.packbagbuddy.AdventureTripDetailActivity;
 import com.riseinsteps.packbagbuddy.R;
 import com.riseinsteps.packbagbuddy.model.TripModel;
 
@@ -20,6 +22,9 @@ public class AdventureTripAdapter extends RecyclerView.Adapter<AdventureTripAdap
     private List<TripModel> modelList;
 
     public AdventureTripAdapter(List<TripModel> modelList) {
+        this.modelList = modelList;
+    }
+    public void setModelList(List<TripModel> modelList){
         this.modelList = modelList;
     }
 
@@ -37,7 +42,9 @@ public class AdventureTripAdapter extends RecyclerView.Adapter<AdventureTripAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i=new Intent(v.getContext(), AdventureTripDetailActivity.class);
+                i.putExtra("name","Kedarnath Tour");
+                v.getContext().startActivity(i);
             }
         });
     }
@@ -58,6 +65,7 @@ public class AdventureTripAdapter extends RecyclerView.Adapter<AdventureTripAdap
         }
 
         private void setData(final String imageURL, final String name) {
+
             Glide.with(itemView.getContext()).load(imageURL).into(adventureTripImage);
             adventureTripName.setText(name);
         }

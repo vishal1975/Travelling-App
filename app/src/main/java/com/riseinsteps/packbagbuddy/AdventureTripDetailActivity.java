@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class AdventureTripDetailActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 String image_url= (String) snapshot.getValue();
                 Glide.with(AdventureTripDetailActivity.this).load(image_url).placeholder(R.drawable.save).dontAnimate().into(activity_image);
             }
@@ -116,6 +118,12 @@ public class AdventureTripDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(AdventureTripDetailActivity.this, RefundTripActivity.class);
                 startActivity(intent);
             }
+        });
+
+        ImageView review_image=findViewById(R.id.review_image);
+        review_image.setOnClickListener((view)->{
+            Intent intent1 = new Intent(AdventureTripDetailActivity.this, TripReviewActivity.class);
+            startActivity(intent1);
         });
     }
 

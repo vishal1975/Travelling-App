@@ -31,6 +31,9 @@ public class PopularSportAdapter extends RecyclerView.Adapter<PopularSportAdapte
     public PopularSportAdapter(List<TripModel> popularSportModelList) {
         this.popularSportModelList = popularSportModelList;
     }
+    public void setPopularSportModelList(List<TripModel> popularSportModelList){
+        this.popularSportModelList = popularSportModelList;
+    }
 
     @NonNull
     @Override

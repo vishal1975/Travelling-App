@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     private RelativeLayout AllAdventureTrips, AllPopularSports;
 
     private RecyclerView adventureTripRecyclerView, popularSportRecyclerView;
-    private List<TripModel> adventureTripList, popularSportList;
+
     private AdventureTripAdapter adventureTripAdapter;
     private PopularSportAdapter popularSportAdapter;
     private DatabaseReference databaseReference;
@@ -80,25 +80,25 @@ public class HomeFragment extends Fragment {
 
         AllAdventureTrips = view.findViewById(R.id.ll_adventure_trip);
 
-        AllAdventureTrips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent allAdventureTrip = new Intent(view.getContext(), AllAdventureTripActivity.class);
-                view.getContext().startActivity(allAdventureTrip);
-            }
-        });
+//        AllAdventureTrips.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent allAdventureTrip = new Intent(view.getContext(), AllAdventureTripActivity.class);
+//                view.getContext().startActivity(allAdventureTrip);
+//            }
+//        });
 
         setAdventureTripRecyclerview(view);
 
         AllPopularSports = view.findViewById(R.id.ll_popular_sports);
 
-        AllPopularSports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent allPopularSport = new Intent(view.getContext(), AllPopularSportActivity.class);
-                view.getContext().startActivity(allPopularSport);
-            }
-        });
+//        AllPopularSports.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent allPopularSport = new Intent(view.getContext(), AllPopularSportActivity.class);
+//                view.getContext().startActivity(allPopularSport);
+//            }
+//        });
 
         setPopularSportRecyclerview(view);
 
@@ -111,29 +111,42 @@ public class HomeFragment extends Fragment {
         adventureTripRecyclerView.setHasFixedSize(true);
         adventureTripRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        adventureTripList = new ArrayList<>();
+        List<TripModel> adventureTripList = new ArrayList<>();
         adventureTripAdapter = new AdventureTripAdapter(adventureTripList);
+
         adventureTripRecyclerView.setAdapter(adventureTripAdapter);
 
         // Fetching the data from firebase for adventure trip list
 
         databaseReference= FirebaseDatabase.getInstance().getReference("Adventrous Trips");
-         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        //databaseReference= FirebaseDatabase.getInstance().
+        final int[] count = {0};
+         databaseReference.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 List<TripModel> temp=new ArrayList<>();
                  for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                     String name= (String) dataSnapshot.child("name").getValue();
+                   //  String name= (String) dataSnapshot.child("name").getValue();
+
+                    String name= dataSnapshot.getKey();
                      String image_url=(String) dataSnapshot.child("Image").getValue();
+                     Toast.makeText(getContext(),"changed after",Toast.LENGTH_SHORT).show();
                      Log.v(name+" "+image_url,"checking database");
-                     adventureTripList.add(new TripModel(name,image_url));
+                     temp.add(new TripModel(name,image_url));
+                     count[0]++;
+                   //  Toast.makeText(getActivity(),"changed",Toast.LENGTH_SHORT).show();
+
                  }
+                   adventureTripAdapter.setModelList(temp);
                 adventureTripAdapter.notifyDataSetChanged();
+                 Log.v("count",count[0]+""+snapshot.getKey());
              }
 
              @Override
              public void onCancelled(@NonNull DatabaseError error) {
                  Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
              }
+
          });
 
     }
@@ -143,7 +156,7 @@ public class HomeFragment extends Fragment {
         popularSportRecyclerView.setHasFixedSize(true);
         popularSportRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        popularSportList = new ArrayList<>();
+       List<TripModel> popularSportList = new ArrayList<>();
         popularSportAdapter = new PopularSportAdapter(popularSportList);
         popularSportRecyclerView.setAdapter(popularSportAdapter);
 
@@ -151,15 +164,19 @@ public class HomeFragment extends Fragment {
         // fetching the data for popular sports from firebase
 
         databaseReference= FirebaseDatabase.getInstance().getReference("Popular Sports");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<TripModel> temp = new ArrayList<>();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    String name= (String) dataSnapshot.child("name").getValue();
+//                    String name= (String) dataSnapshot.child("name").getValue();
+                    String name= (String) dataSnapshot.getKey();
                     String image_url=(String) dataSnapshot.child("Image").getValue();
                     Log.v(name+" "+image_url,"checking database");
-                    popularSportList.add(new TripModel(name,image_url));
+                    temp.add(new TripModel(name,image_url));
+
                 }
+                popularSportAdapter.setPopularSportModelList(temp);
                 popularSportAdapter.notifyDataSetChanged();
             }
 

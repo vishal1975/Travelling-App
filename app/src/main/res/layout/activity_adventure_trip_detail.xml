@@ -105,7 +105,34 @@
                     android:layout_marginTop="20dp"
                     tools:ignore="MissingConstraints">
 
+                    <LinearLayout
+                        android:id="@+id/reviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:focusable="true">
 
+                        <ImageView
+                            android:id="@+id/review_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="3"
+                            android:clickable="true"
+                            android:src="@drawable/rulesandregulation" />
+
+                        <TextView
+                            android:id="@+id/review_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="Reviews"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
 
 
 

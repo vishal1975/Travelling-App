@@ -88,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // Signing the current user
                     signIn_Current_User();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Log in Unsuccessefully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Log in Unsuccessefully"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
